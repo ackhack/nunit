@@ -211,9 +211,12 @@ namespace NUnit.Framework.Internal
             get => _currentResult;
             set
             {
+                var previousResultOutput = _currentResult?.Output;
                 _currentResult = value;
-                if (value is not null)
-                    OutWriter = value.OutWriter;
+                if (previousResultOutput is { Length: > 0 } && _currentResult?.Output.Length == 0)
+                {
+                    _currentResult.OutWriter?.Write(previousResultOutput);
+                }
             }
         }
 
