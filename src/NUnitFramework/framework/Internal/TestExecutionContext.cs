@@ -213,9 +213,10 @@ namespace NUnit.Framework.Internal
             {
                 var previousResultOutput = _currentResult?.Output;
                 _currentResult = value;
-                if (previousResultOutput is { Length: > 0 } && _currentResult?.Output.Length == 0)
+                if (previousResultOutput is { Length: > 0 } && _currentResult?.Output.Length == 0 && _currentResult.OutWriter is not null)
                 {
-                    _currentResult.OutWriter?.Write(previousResultOutput);
+                    _currentResult.OutWriter.Write(previousResultOutput);
+                    OutWriter = _currentResult.OutWriter!;
                 }
             }
         }
