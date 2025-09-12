@@ -213,7 +213,9 @@ namespace NUnit.Framework.Internal
             {
                 var previousResultOutput = _currentResult?.Output;
                 _currentResult = value;
-                if (previousResultOutput is { Length: > 0 } && _currentResult?.Output.Length == 0 && _currentResult.OutWriter is not null)
+                //write the previous output to the new OutWriter only if there was output that is now missing
+                //so when current output length is 0 but previous output had content
+                if (_currentResult?.Output.Length == 0 && previousResultOutput is { Length: > 0 } && _currentResult.OutWriter is not null)
                 {
                     _currentResult.OutWriter.Write(previousResultOutput);
                     OutWriter = _currentResult.OutWriter!;
