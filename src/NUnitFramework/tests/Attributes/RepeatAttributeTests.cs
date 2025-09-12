@@ -179,5 +179,13 @@ namespace NUnit.Framework.Tests.Attributes
                 Assert.That(fixture.Count, Is.EqualTo(nTries));
             });
         }
+
+        [Test]
+        public void RepeatFullOutputTest()
+        {
+            ITestResult result = TestBuilder.RunTestCase(typeof(RepeatOutputTestCaseFixture), nameof(RepeatOutputTestCaseFixture.PrintTest));
+
+            Assert.That(result.Output, Is.EqualTo("0" + Environment.NewLine + "1" + Environment.NewLine + "2" + Environment.NewLine));
+        }
     }
 }

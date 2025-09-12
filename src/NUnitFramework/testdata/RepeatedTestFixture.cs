@@ -324,4 +324,14 @@ namespace NUnit.TestData.RepeatingTests
             Assert.Fail();
         }
     }
+
+    public class RepeatOutputTestCaseFixture : RepeatingTestsFixtureBase
+    {
+        [Repeat(3, StopOnFailure = false)]
+        [Test]
+        public void PrintTest()
+        {
+            Console.WriteLine(Count++);
+        }
+    }
 }
