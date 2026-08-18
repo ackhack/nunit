@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 
 namespace NUnit.Framework.Internal.Builders
 {
@@ -83,7 +84,8 @@ namespace NUnit.Framework.Internal.Builders
 
         private static string GetNamespaceForFixture(TestSuite fixture)
         {
-            string ns = fixture.FullName;
+            //Replacing repeating dots in the name to prevent TestSuites with empty names
+            string ns = Regex.Replace(fixture.FullName, "\\.+", ".");
             int index = ns.IndexOfAny(new[] { '[', '(' });
             if (index >= 0)
                 ns = ns.Substring(0, index);

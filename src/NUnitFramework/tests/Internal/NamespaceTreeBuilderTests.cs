@@ -142,6 +142,20 @@ namespace NUnit.Framework.Tests.Internal
             CheckTree("[default namespace]", "[default namespace]", "SomeFixture");
         }
 
+        [TestCase("NameWithoutDots", new[] { "NameWithoutDots" })]
+        [TestCase("Name.With.Dots", new[] { "Name", "With", "Name.With.Dots" })]
+        [TestCase("Name.With..Repeating...Dots", new[] { "Name", "With", "Repeating", "Name.With..Repeating...Dots" })]
+        [TestCase("Name.With..Dots...At....End.....", new[] { "Name", "With", "Dots", "At", "End", "Name.With..Dots...At....End....." })]
+        [TestCase("..Name.With..Dots...At....Start", new[] { "Name", "With", "Dots", "At", "..Name.With..Dots...At....Start" })]
+        [TestCase("..Name.With..Dots...At....Start.....And......End.......", new[] { "Name", "With", "Dots", "At", "Start", "And", "End", "..Name.With..Dots...At....Start.....And......End......." })]
+        public void NamedTestFixtureCreatingNamespaces(string name, string[] treeNames)
+        {
+            //With this constructor the user can put dots into the name of the TestSuite and therefore create namespaces
+            _builder.Add(new TestSuite(name));
+
+            CheckTree(treeNames);
+        }
+
         private void CheckTree(params string[] names)
         {
             ITest suite = _builder.RootSuite;
